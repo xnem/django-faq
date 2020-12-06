@@ -21,7 +21,7 @@ CREATE TABLE public.faq_qanda
     question character varying(50) COLLATE pg_catalog."default" NOT NULL,
     answer text COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT faq_qanda_pkey PRIMARY KEY (id)
-)
+);
 
 -- インデックステーブルの作成
 CREATE TABLE public.faq_index
@@ -31,4 +31,4 @@ CREATE TABLE public.faq_index
     qandaid integer NOT NULL,
     count integer NOT NULL,
     CONSTRAINT faq_index_pkey PRIMARY KEY (id)
-)
+);
