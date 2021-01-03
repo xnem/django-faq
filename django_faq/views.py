@@ -14,10 +14,10 @@ def insert(request):
         text = qanda_data["question"] + " " + qanda_data["answer"]
         filtered_tokens = Analyzer.Analyzer.analyze(text)
         models.insert_index(str(qandaid), filtered_tokens)
-        response = JsonResponse({'message': "success."}, status=200)
+        response = JsonResponse({'message': "success."}, status=200, content_type='application/json')
         return response
     except Exception:
-        response = JsonResponse({'message': 'failed to insert.'}, status=500)
+        response = JsonResponse({'message': 'failed to insert.'}, status=500, content_type='application/json')
         return response
 
 
@@ -29,10 +29,10 @@ def update(request):
         text = fixed_qanda_data["question"] + " " + fixed_qanda_data["answer"]
         filtered_tokens = Analyzer.Analyzer.analyze(text)
         models.insert_index(str(fixed_qanda_data["qandaid"]), filtered_tokens)
-        response = JsonResponse({'message': "success."}, status=200)
+        response = JsonResponse({'message': "success."}, status=200, content_type='application/json')
         return response
     except Exception:
-        response = JsonResponse({'message': 'failed to update.'}, status=500)
+        response = JsonResponse({'message': 'failed to update.'}, status=500, content_type='application/json')
         return response
 
 
@@ -45,10 +45,10 @@ def search(request):
             searched_list = models.search_qanda(splited_words[0])
         else:  # 検索ワードがスペース挟んで複数
             searched_list = models.search_qanda2(splited_words)
-        response = JsonResponse({'data': searched_list}, status=200)
+        response = JsonResponse({'data': searched_list}, status=200, content_type='application/json')
         return response
     except Exception:
-        response = JsonResponse({'message': 'failed to search.'}, status=500)
+        response = JsonResponse({'message': 'failed to search.'}, status=500, content_type='application/json')
         return response
 
 
@@ -57,8 +57,8 @@ def delete(request):
     try:
         qandaid = request.GET.get("qandaid")
         models.delete_qa_and_index(qandaid)
-        response = JsonResponse({'message': "success."}, status=200)
+        response = JsonResponse({'message': "success."}, status=200, content_type='application/json')
         return response
     except Exception:
-        response = JsonResponse({'message': 'failed to delete.'}, status=500)
+        response = JsonResponse({'message': 'failed to delete.'}, status=500, content_type='application/json')
         return response
