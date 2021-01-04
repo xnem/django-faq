@@ -82,8 +82,7 @@ def lock(request):
 def unlock(request):
     try:
         qandaid = request.GET.get("qandaid")
-        if qandaid is not None:
-            models.unlock(qandaid)
+        models.unlock(qandaid)
         response = JsonResponse({'message': "success."}, status=200, content_type='application/json')
         return response
     except Exception:
