@@ -32,3 +32,10 @@ CREATE TABLE public.faq_index
     count integer NOT NULL,
     CONSTRAINT faq_index_pkey PRIMARY KEY (id)
 );
+
+-- 排他制御テーブルの作成
+CREATE TABLE public.faq_lock
+(
+    qandaid integer NOT NULL,
+    CONSTRAINT faq_lock_pkey PRIMARY KEY (qandaid)
+);
