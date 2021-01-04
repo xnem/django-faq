@@ -29,6 +29,7 @@ def update(request):
         text = fixed_qanda_data["question"] + " " + fixed_qanda_data["answer"]
         filtered_tokens = Analyzer.Analyzer.analyze(text)
         models.insert_index(str(fixed_qanda_data["qandaid"]), filtered_tokens)
+        models.unlock(str(fixed_qanda_data["qandaid"]))
         response = JsonResponse({'message': "success."}, status=200, content_type='application/json')
         return response
     except Exception:
@@ -61,4 +62,42 @@ def delete(request):
         return response
     except Exception:
         response = JsonResponse({'message': 'failed to delete.'}, status=500, content_type='application/json')
+        return response
+
+
+@api_view(['POST'])
+def lock(request):
+    try:
+        qandaid_data = json.loads(request.body)
+        print(qandaid_data["qandaid"])
+        models.lock(str(qandaid_data["qandaid"]))
+        response = JsonResponse({'message': "success."}, status=200, content_type='application/json')
+        return response
+    except Exception:
+        response = JsonResponse({'message': 'failed to lock.'}, status=500, content_type='application/json')
+        return response
+
+
+@api_view(['DELETE'])
+def unlock(request):
+    try:
+        qandaid = request.GET.get("qandaid")
+        if qandaid is not None:
+            models.unlock(qandaid)
+        response = JsonResponse({'message': "success."}, status=200, content_type='application/json')
+        return response
+    except Exception:
+        response = JsonResponse({'message': 'failed to unlock.'}, status=500, content_type='application/json')
+        return response
+
+
+@api_view(['GET'])
+def check(request):
+    try:
+        qandaid = request.GET.get("qandaid")
+        count = models.check(qandaid)
+        response = JsonResponse({'data': count}, status=200, content_type='application/json')
+        return response
+    except Exception:
+        response = JsonResponse({'message': 'failed to check.'}, status=500, content_type='application/json')
         return response

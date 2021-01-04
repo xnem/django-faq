@@ -99,3 +99,41 @@ def delete_qa_and_index(qandaid):
             print("SQL2:" + sql2)
         raise Exception
 
+
+def lock(qandaid):
+    try:
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO faq_lock VALUES (" + qandaid + ");"
+            cursor.execute(sql)
+    except Exception:
+        print("lockに失敗")
+        if sql is not None:
+            print("SQL:" + sql)
+        raise Exception
+
+
+def unlock(qandaid):
+    try:
+        with connection.cursor() as cursor:
+            sql = "DELETE FROM faq_lock WHERE qandaid = " + qandaid + ";"
+            cursor.execute(sql)
+    except Exception:
+        print("unlockに失敗")
+        if sql is not None:
+            print("SQL:" + sql)
+        raise Exception
+
+
+def check(qandaid):
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT count(*) FROM faq_lock WHERE qandaid = " + qandaid + ";"
+            cursor.execute(sql)
+            count = cursor.fetchall()
+        return count
+    except Exception:
+        print("checkに失敗")
+        if sql is not None:
+            print("SQL:" + sql)
+        raise Exception
+
